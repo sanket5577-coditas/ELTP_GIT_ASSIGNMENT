@@ -1,0 +1,199 @@
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| employee_mgt       |
+| mysql              |
+| online_shopping    |
+| performance_schema |
+| sanket             |
+| test               |
++--------------------+
+7 rows in set (0.02 sec)
+
+// Create New database: Hospital
+
+
+mysql> create database Hospital;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| employee_mgt       |
+| hospital           |
+| mysql              |
+| online_shopping    |
+| performance_schema |
+| sanket             |
+| test               |
++--------------------+
+8 rows in set (0.00 sec)
+
+"""Create Tables:
+    1) Patients:
+        patient_id, name, age, phone_number"""
+
+
+mysql> CREATE TABLE Patients( patient_id int PRIMARY KEY,Name varchar(50),age int,Phone_Number varchar(50));
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> desc patients;
++--------------+-------------+------+-----+---------+-------+
+| Field        | Type        | Null | Key | Default | Extra |
++--------------+-------------+------+-----+---------+-------+
+| patient_id   | int(11)     | NO   | PRI | NULL    |       |
+| Name         | varchar(50) | YES  |     | NULL    |       |
+| age          | int(11)     | YES  |     | NULL    |       |
+| Phone_Number | varchar(50) | YES  |     | NULL    |       |
++--------------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+"""2) Doctors:
+        doctor_id, name, specialization"""
+
+
+mysql> CREATE TABLE Doctors(
+    -> doctor_id int PRIMARY KEY,
+    -> Name varchar(50),
+    -> Specialization varchar(50)
+    -> );
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> desc Doctors;
++----------------+-------------+------+-----+---------+-------+
+| Field          | Type        | Null | Key | Default | Extra |
++----------------+-------------+------+-----+---------+-------+
+| doctor_id     | int(11)     | NO   | PRI | NULL    |       |
+| Name           | varchar(50) | YES  |     | NULL    |       |
+| Specialization | varchar(50) | YES  |     | NULL    |       |
++----------------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+
+
+"""
+ 3) Prescriptions:
+        prescription_id, patient_id, doctor_id, symptoms, medication"""
+
+mysql> CREATE TABLE Prescriptions(
+    -> Prescription_id int PRIMARY KEY,
+    -> patient_id int,
+    -> doctor_id int,
+    -> symtoms varchar(50),
+    -> medication varchar(50)
+    -> );
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> desc prescriptions;
++-----------------+-------------+------+-----+---------+-------+
+| Field           | Type        | Null | Key | Default | Extra |
++-----------------+-------------+------+-----+---------+-------+
+| Prescription_id | int(11)     | NO   | PRI | NULL    |       |
+| patient_id      | int(11)     | YES  |     | NULL    |       |
+| doctor_id       | int(11)     | YES  |     | NULL    |       |
+| symtoms         | varchar(50) | YES  |     | NULL    |       |
+| medication      | varchar(50) | YES  |     | NULL    |       |
++-----------------+-------------+------+-----+---------+-------+
+5 rows in set (0.01 sec)
+
+
+"""4) Billing:
+        billing_id, prescription_id, total_amount"""
+
+mysql> CREATE TABLE Billing(
+    -> Billing_id int PRIMARY KEY,
+    -> Prescription_id int,
+    -> total_amount int);
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> desc Billing;
++-----------------+---------+------+-----+---------+-------+
+| Field           | Type    | Null | Key | Default | Extra |
++-----------------+---------+------+-----+---------+-------+
+| Billing_id      | int(11) | NO   | PRI | NULL    |       |
+| Prescription_id | int(11) | YES  |     | NULL    |       |
+| total_amount    | int(11) | YES  |     | NULL    |       |
++-----------------+---------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+
+//Insertion
+
+mysql> INSERT INTO patients VALUES(1,"sanket",21,"9766339263");
+Query OK, 1 row affected (0.02 sec)
+
+mysql> INSERT INTO patients VALUES(2,"shubham",22,"1234567890");
+Query OK, 1 row affected (0.02 sec)
+
+mysql> select * from patients;
++------------+---------+------+--------------+
+| patient_id | Name    | age  | Phone_Number |
++------------+---------+------+--------------+
+|          1 | sanket  |   21 | 9766339263   |
+|          2 | shubham |   22 | 1234567890   |
++------------+---------+------+--------------+
+2 rows in set (0.00 sec)
+
+mysql> INSERT INTO doctors VALUES(111,"Suresh","skin"),(112,"Ramesh","orthopedics");
+Query OK, 2 rows affected (0.01 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> select * from doctors;
++------------+--------+----------------+
+| doctor_id  | Name   | Specialization |
++------------+--------+----------------+
+|        111 | Suresh | skin           |
+|        112 | Ramesh | orthopedics    |
++------------+--------+----------------+
+2 rows in set (0.00 sec)
+
+mysql> INSERT INTO prescriptions VALUES(141,1,111,"red_skin","nothing"),(142,2,112,"nothing","nothing");
+Query OK, 2 rows affected (0.02 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> select * from prescriptions;
++-----------------+------------+-----------+----------+------------+
+| Prescription_id | patient_id | doctor_id | symtoms  | medication |
++-----------------+------------+-----------+----------+------------+
+|             141 |          1 |       111 | red_skin | nothing    |
+|             142 |          2 |       112 | nothing  | nothing    |
++-----------------+------------+-----------+----------+------------+
+2 rows in set (0.00 sec)
+
+mysql> INSERT INTO billing VALUES(101,141,200),(102,142,100);
+Query OK, 2 rows affected (0.01 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> select * from billing;
++------------+-----------------+--------------+
+| Billing_id | Prescription_id | total_amount |
++------------+-----------------+--------------+
+|        101 |             141 |          200 |
+|        102 |             142 |          100 |
++------------+-----------------+--------------+
+2 rows in set (0.00 sec)
+
+
+//FOREIGN KEY
+
+mysql> ALTER TABLE billing
+    -> ADD CONSTRAINT FK_HospitalDetails
+    -> FOREIGN KEY (Prescription_id) REFERENCES prescriptions(prescription_id);
+Query OK, 2 rows affected (0.05 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+
+mysql> desc billing;
++-----------------+---------+------+-----+---------+-------+
+| Field           | Type    | Null | Key | Default | Extra |
++-----------------+---------+------+-----+---------+-------+
+| Billing_id      | int(11) | NO   | PRI | NULL    |       |
+| Prescription_id | int(11) | YES  | MUL | NULL    |       |
+| total_amount    | int(11) | YES  |     | NULL    |       |
++-----------------+---------+------+-----+---------+-------+
+3 rows in set (0.01 sec)
+

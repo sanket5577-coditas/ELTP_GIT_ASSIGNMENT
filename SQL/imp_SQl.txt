@@ -1,0 +1,17 @@
+mysql> ALTER TABLE Order_details
+    -> ADD CONSTRAINT FK_PersonOrder
+    -> FOREIGN KEY (Product_ID) REFERENCES Product(Product_ID);
+Query OK, 5 rows affected (0.05 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> desc order_details;
++------------------+---------+------+-----+---------+-------+
+| Field            | Type    | Null | Key | Default | Extra |
++------------------+---------+------+-----+---------+-------+
+| Order_details_ID | int(11) | NO   | PRI | NULL    |       |
+| Order_ID         | int(11) | YES  |     | NULL    |       |
+| Product_ID       | int(11) | YES  | MUL | NULL    |       |
+| Quantity         | int(11) | YES  |     | NULL    |       |
+| Total_Amount     | int(11) | YES  |     | NULL    |       |
++------------------+---------+------+-----+---------+-------+
+5 rows in set (0.01 sec)

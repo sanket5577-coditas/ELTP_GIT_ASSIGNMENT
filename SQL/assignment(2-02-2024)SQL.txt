@@ -1,0 +1,173 @@
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| employee_mgt       |
+| hospital           |
+| mysql              |
+| online_shopping    |
+| performance_schema |
+| sanket             |
+| test               |
++--------------------+
+8 rows in set (0.00 sec)
+
+mysql>  use hospital
+Database changed
+
+mysql> show tables;
++--------------------+
+| Tables_in_hospital |
++--------------------+
+| billing            |
+| doctors            |
+| patients           |
+| prescriptions      |
++--------------------+
+4 rows in set (0.00 sec)
+
+
+// Detailed information of hospital database tables
+
+
+mysql> desc patients;
++--------------+-------------+------+-----+---------+-------+
+| Field        | Type        | Null | Key | Default | Extra |
++--------------+-------------+------+-----+---------+-------+
+| patient_id   | int(11)     | NO   | PRI | NULL    |       |
+| Name         | varchar(50) | YES  |     | NULL    |       |
+| age          | int(11)     | YES  |     | NULL    |       |
+| Phone_Number | varchar(50) | YES  |     | NULL    |       |
++--------------+-------------+------+-----+---------+-------+
+4 rows in set (0.02 sec)
+
+mysql> desc doctors;
++----------------+-------------+------+-----+---------+-------+
+| Field          | Type        | Null | Key | Default | Extra |
++----------------+-------------+------+-----+---------+-------+
+| doctor_id      | int(11)     | NO   | PRI | NULL    |       |
+| Name           | varchar(50) | YES  |     | NULL    |       |
+| Specialization | varchar(50) | YES  |     | NULL    |       |
++----------------+-------------+------+-----+---------+-------+
+3 rows in set (0.02 sec)
+
+mysql> desc prescriptions;
++-----------------+-------------+------+-----+---------+-------+
+| Field           | Type        | Null | Key | Default | Extra |
++-----------------+-------------+------+-----+---------+-------+
+| Prescription_id | int(11)     | NO   | PRI | NULL    |       |
+| patient_id      | int(11)     | YES  |     | NULL    |       |
+| doctor_id       | int(11)     | YES  |     | NULL    |       |
+| symtoms         | varchar(50) | YES  |     | NULL    |       |
+| medication      | varchar(50) | YES  |     | NULL    |       |
++-----------------+-------------+------+-----+---------+-------+
+5 rows in set (0.01 sec)
+
+mysql> desc billing;
++-----------------+---------+------+-----+---------+-------+
+| Field           | Type    | Null | Key | Default | Extra |
++-----------------+---------+------+-----+---------+-------+
+| Billing_id      | int(11) | NO   | PRI | NULL    |       |
+| Prescription_id | int(11) | YES  | MUL | NULL    |       |
+| total_amount    | int(11) | YES  |     | NULL    |       |
++-----------------+---------+------+-----+---------+-------+
+3 rows in set (0.02 sec)
+
+//
+
+mysql> select patients.name,doctors.name,prescriptions.symtoms,prescriptions.medication from prescriptions
+    -> join patients on prescriptions.patient_id = patients.patient_id
+    -> join doctors on prescriptions.doctor_id=doctors.doctor_id
+    -> order by patients.name asc;
++---------+--------+----------+------------+
+| name    | name   | symtoms  | medication |
++---------+--------+----------+------------+
+| sanket  | Suresh | red_skin | nothing    |
+| shubham | Ramesh | nothing  | nothing    |
++---------+--------+----------+------------+
+2 rows in set (0.00 sec)
+
+// Foreign key added in prescriptions table 
+
+mysql> ALTER TABLE prescriptions
+    -> ADD CONSTRAINT FK_prescription
+    -> FOREIGN KEY (doctor_id) REFERENCES doctors(doctor_id);
+Query OK, 2 rows affected (0.05 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> ALTER TABLE prescriptions
+    -> ADD CONSTRAINT FK_prescriptions
+    -> FOREIGN KEY (patient_id) REFERENCES patients(patient_id);
+Query OK, 2 rows affected (0.05 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+//  the details of prescriptions table after  adding foreign key
+
+mysql> desc prescriptions;
++-----------------+-------------+------+-----+---------+-------+
+| Field           | Type        | Null | Key | Default | Extra |
++-----------------+-------------+------+-----+---------+-------+
+| Prescription_id | int(11)     | NO   | PRI | NULL    |       |
+| patient_id      | int(11)     | YES  | MUL | NULL    |       |
+| doctor_id       | int(11)     | YES  | MUL | NULL    |       |
+| symtoms         | varchar(50) | YES  |     | NULL    |       |
+| medication      | varchar(50) | YES  |     | NULL    |       |
++-----------------+-------------+------+-----+---------+-------+
+5 rows in set (0.02 sec)
+
+//1) Retrieve the names and ages of all patients.
+
+mysql> SELECT name,age FROM patients;
++---------+------+
+| name    | age  |
++---------+------+
+| sanket  |   21 |
+| shubham |   22 |
++---------+------+
+2 rows in set (0.00 sec)
+
+// 2) Display the prescription details, including patient names, doctor names, symptoms, and medications.
+ Order them by patient names in alphabetical ORDER
+
+
+mysql> select patients.name,doctors.name,prescriptions.symtoms,prescriptions.medication from prescriptions
+    -> join patients on prescriptions.patient_id = patients.patient_id
+    -> join doctors on prescriptions.doctor_id=doctors.doctor_id
+    -> order by patients.name asc;
++---------+--------+----------+------------+
+| name    | name   | symtoms  | medication |
++---------+--------+----------+------------+
+| sanket  | Suresh | red_skin | nothing    |
+| shubham | Ramesh | nothing  | nothing    |
++---------+--------+----------+------------+
+2 rows in set (0.00 sec)
+
+
+//3) Calculate the total revenue generated by the hospital from all billing transactions.
+
+mysql> Select sum(total_amount) from billing;
++-------------------+
+| sum(total_amount) |
++-------------------+
+|               300 |
++-------------------+
+
+
+//4) Retrieve a comprehensive report that includes the patient names, doctor names, prescription details 
+(symptoms and medications), and the total billing amount for each patient's prescription. If a patient does
+ not have any prescriptions, still include their name in the 
+report with NULL values for prescription details and billing amount.
+
+
+mysql> select patients.name, doctors.name, prescriptions.symtoms, prescriptions.medication,billing.total_amount from  prescriptions
+left join  patients on prescriptions.patient_id=patients.patient_id 
+left join doctors on  prescriptions.doctor_id=doctors.doctor_id 
+left join billing on  billing.prescription_id= prescriptions. prescription_id;
++---------+--------+----------+------------+--------------+
+| name    | name   | symtoms  | medication | total_amount |
++---------+--------+----------+------------+--------------+
+| sanket  | Suresh | red_skin | nothing    |          200 |
+| shubham | Ramesh | nothing  | nothing    |          100 |
++---------+--------+----------+------------+--------------+
+2 rows in set (0.00 sec)

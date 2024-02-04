@@ -1,0 +1,76 @@
+// Assignment Online Shopping Database @Sanket Chuadhary5577
+
+mysql> create database online_shopping ;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| employee_mgt       |
+| mysql              |
+| online_shopping    |
+| performance_schema |
+| sanket             |
+| test               |
++--------------------+
+
+mysql> create table Product(product_ID int PRIMARY KEY,Product_Name VARCHAR(50),Category varchar(100),Price INT);
+Query OK, 0 rows affected (0.02 sec)
+
+create table Orders
+    -> (Order_ID int PRIMARY KEY,
+    -> Order_date DATE);
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> create table Order_Details(
+    -> Order_details_ID int PRIMARY KEY,
+    -> Order_ID INT,
+    -> Product_ID int,
+    -> Quantity int,
+    -> Total_Amount int);
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> show tables;
++---------------------------+
+| Tables_in_online_shopping |
++---------------------------+
+| order_details             |
+| orders                    |
+| product                   |
++---------------------------+
+3 rows in set (0.00 sec)
+
+mysql> desc order_details;
++------------------+---------+------+-----+---------+-------+
+| Field            | Type    | Null | Key | Default | Extra |
++------------------+---------+------+-----+---------+-------+
+| Order_details_ID | int(11) | NO   | PRI | NULL    |       |
+| Order_ID         | int(11) | YES  |     | NULL    |       |
+| Product_ID       | int(11) | YES  |     | NULL    |       |
+| Quantity         | int(11) | YES  |     | NULL    |       |
+| Total_Amount     | int(11) | YES  |     | NULL    |       |
++------------------+---------+------+-----+---------+-------+
+5 rows in set (0.01 sec)
+
+mysql> desc Orders;
++------------+---------+------+-----+---------+-------+
+| Field      | Type    | Null | Key | Default | Extra |
++------------+---------+------+-----+---------+-------+
+| Order_ID   | int(11) | NO   | PRI | NULL    |       |
+| Order_date | date    | YES  |     | NULL    |       |
++------------+---------+------+-----+---------+-------+
+2 rows in set (0.01 sec)
+
+mysql> desc product;
++--------------+--------------+------+-----+---------+-------+
+| Field        | Type         | Null | Key | Default | Extra |
++--------------+--------------+------+-----+---------+-------+
+| product_ID   | int(11)      | NO   | PRI | NULL    |       |
+| Product_Name | varchar(50)  | YES  |     | NULL    |       |
+| Category     | varchar(100) | YES  |     | NULL    |       |
+| Price        | int(11)      | YES  |     | NULL    |       |
++--------------+--------------+------+-----+---------+-------+
+4 rows in set (0.02 sec)
+

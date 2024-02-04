@@ -1,0 +1,130 @@
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| employee_mgt       |
+| mysql              |
+| online_shopping    |
+| performance_schema |
+| sanket             |
+| test               |
++--------------------+
+7 rows in set (0.01 sec)
+
+mysql> use employee_mgt;
+Database changed
+mysql> show tables;
++------------------------+
+| Tables_in_employee_mgt |
++------------------------+
+| department             |
+| employees              |
++------------------------+
+2 rows in set (0.01 sec)
+
+mysql> select * from employees;
++-------------+---------------+---------+----------+
+| employee_id | employee_name | dept_id | salary   |
++-------------+---------------+---------+----------+
+|        5577 | sanket        |       1 | 11000.00 |
++-------------+---------------+---------+----------+
+1 row in set (0.00 sec)
+
+mysql> alter table employees
+    -> add column date_of_join DATE;
+Query OK, 1 row affected (0.05 sec)
+Records: 1  Duplicates: 0  Warnings: 0
+// 30-01-2024 SQL assignment 
+
+
+mysql> select * from employees;
++-------------+---------------+---------+----------+--------------+
+| employee_id | employee_name | dept_id | salary   | date_of_join |
++-------------+---------------+---------+----------+--------------+
+|        5577 | sanket        |       1 | 11000.00 | NULL         |
++-------------+---------------+---------+----------+--------------+
+1 row in set (0.00 sec)
+
+// Updating The Tables in employee database and adding column name dataofjoin and also adding some record to it....
+
+mysql> update employees
+    -> set date_of_join ="2024-01-01"
+    -> where employee_id=5577;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from employees;
++-------------+---------------+---------+----------+--------------+
+| employee_id | employee_name | dept_id | salary   | date_of_join |
++-------------+---------------+---------+----------+--------------+
+|        5577 | sanket        |       1 | 11000.00 | 2024-01-01   |
++-------------+---------------+---------+----------+--------------+
+1 row in set (0.00 sec)
+
+mysql> insert into employees values(5578,"Shubham Pal",2,45000,"2024-01,01");
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into employees values(5579,"Dhaval",3,55000,"2024-01-03"),(5580,"shravan",4,60000,"2024-01-10"),(5545,"soham",7,123000,"2024-01-10");
+Query OK, 3 rows affected (0.00 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> select * from employees;
++-------------+---------------+---------+-----------+--------------+
+| employee_id | employee_name | dept_id | salary    | date_of_join |
++-------------+---------------+---------+-----------+--------------+
+|        5545 | soham         |       7 | 123000.00 | 2024-01-10   |
+|        5577 | sanket        |       1 |  11000.00 | 2024-01-01   |
+|        5578 | Shubham Pal   |       2 |  45000.00 | 2024-01-01   |
+|        5579 | Dhaval        |       3 |  55000.00 | 2024-01-03   |
+|        5580 | shravan       |       4 |  60000.00 | 2024-01-10   |
++-------------+---------------+---------+-----------+--------------+
+5 rows in set (0.00 sec)
+
+// Q1,  find Employee whose date of join is after 1 jan and salary is greater than 45000 and sort in asc order by salary
+
+ans :- 
+
+
+mysql> select * from employees
+    -> where date_of_join >="2024-01-01" and salary >45000
+    -> order by salary asc;
++-------------+---------------+---------+-----------+--------------+
+| employee_id | employee_name | dept_id | salary    | date_of_join |
++-------------+---------------+---------+-----------+--------------+
+|        5579 | Dhaval        |       3 |  55000.00 | 2024-01-03   |
+|        5580 | shravan       |       4 |  60000.00 | 2024-01-10   |
+|        5545 | soham         |       7 | 123000.00 | 2024-01-10   |
++-------------+---------------+---------+-----------+--------------+
+3 rows in set (0.00 sec)
+
+// Q2, Price should be >=500 and <1000 and product name should consist of "er"?
+
+ ans :- 
+
+
+mysql> select * from product
+    -> where (price>500 and price<1000) and (Product_Name like "%er%");
+Empty set (0.00 sec)
+
+
+//Q3, How we can use like operator as Case-sensitive in mysql
+
+
+
+mysql> select * from product
+    -> where Product_Name like binary "%o%";
++------------+--------------+----------+--------+
+| product_ID | Product_Name | Category | Price  |
++------------+--------------+----------+--------+
+|          2 | Iphone       | Mobiles  | 100000 |
+|          5 | Poco         | Mobiles  |  30000 |
++------------+--------------+----------+--------+
+2 rows in set (0.00 sec)
+
+mysql> select * from product
+    -> where Product_Name like binary "%O%";
+Empty set (0.00 sec)
+
+
+//    Done//
