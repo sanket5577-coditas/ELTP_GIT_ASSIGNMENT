@@ -1,0 +1,286 @@
+// data filling
+
+mysql> desc doctors;
++----------------+-------------+------+-----+---------+-------+
+| Field          | Type        | Null | Key | Default | Extra |
++----------------+-------------+------+-----+---------+-------+
+| doctor_id      | int(11)     | NO   | PRI | NULL    |       |
+| Name           | varchar(50) | YES  |     | NULL    |       |
+| Specialization | varchar(50) | YES  |     | NULL    |       |
++----------------+-------------+------+-----+---------+-------+
+3 rows in set (0.01 sec)
+
+mysql> desc billing;
++-----------------+---------+------+-----+---------+-------+
+| Field           | Type    | Null | Key | Default | Extra |
++-----------------+---------+------+-----+---------+-------+
+| Billing_id      | int(11) | NO   | PRI | NULL    |       |
+| Prescription_id | int(11) | YES  | MUL | NULL    |       |
+| total_amount    | int(11) | YES  |     | NULL    |       |
++-----------------+---------+------+-----+---------+-------+
+3 rows in set (0.01 sec)
+
+mysql> desc prescriptions;
++-----------------+-------------+------+-----+---------+-------+
+| Field           | Type        | Null | Key | Default | Extra |
++-----------------+-------------+------+-----+---------+-------+
+| Prescription_id | int(11)     | NO   | PRI | NULL    |       |
+| patient_id      | int(11)     | YES  | MUL | NULL    |       |
+| doctor_id       | int(11)     | YES  | MUL | NULL    |       |
+| symtoms         | varchar(50) | YES  |     | NULL    |       |
+| medication      | varchar(50) | YES  |     | NULL    |       |
++-----------------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> desc patients;
++--------------+-------------+------+-----+---------+-------+
+| Field        | Type        | Null | Key | Default | Extra |
++--------------+-------------+------+-----+---------+-------+
+| patient_id   | int(11)     | NO   | PRI | NULL    |       |
+| Name         | varchar(50) | YES  |     | NULL    |       |
+| age          | int(11)     | YES  |     | NULL    |       |
+| Phone_Number | varchar(50) | YES  |     | NULL    |       |
++--------------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> -- Inserting sample data into the Doctors table
+mysql> INSERT INTO Doctors (doctor_id, Name, Specialization)
+    -> VALUES
+    ->     (201, 'Dr. Smith', 'Cardiology'),
+    ->     (202, 'Dr. Johnson', 'Orthopedics'),
+    ->     (203, 'Dr. Davis', 'Cardiology'),
+    ->     (204, 'Dr. Miller', 'Orthopedics');
+Query OK, 4 rows affected (0.02 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> -- Inserting sample data into the Patients table
+mysql> INSERT INTO Patients (patient_id, Name, age, Phone_Number)
+    -> VALUES
+    ->     (101, 'John Doe', 30, '555-1234'),
+    ->     (102, 'Jane Smith', 25, '555-5678'),
+    ->     (103, 'Bob Johnson', 40, '555-9876'),
+    ->     (104, 'Alice Davis', 22, '555-6543');
+Query OK, 4 rows affected (0.02 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> -- Inserting sample data into the Prescription table
+mysql> INSERT INTO Prescription (Prescription_id, patient_id, doctor_id, symptoms, medication)
+    -> VALUES
+    ->     (1, 101, 201, 'Fever and Headache', 'Aspirin'),
+    ->     (2, 102, 202, 'Cough and Cold', 'Cough Syrup'),
+    ->     (3, 103, 203, 'Back Pain', 'Painkiller'),
+    ->     (4, 104, 204, 'Allergies', 'Antihistamine');
+ERROR 1146 (42S02): Table 'hospital.prescription' doesn't exist
+mysql> INSERT INTO Prescriptions (Prescription_id, patient_id, doctor_id, symtoms, medication)
+    -> VALUES
+    ->     (1, 101, 201, 'Fever and Headache', 'Aspirin'),
+    ->     (2, 102, 202, 'Cough and Cold', 'Cough Syrup'),
+    ->     (3, 103, 203, 'Back Pain', 'Painkiller'),
+    ->     (4, 104, 204, 'Allergies', 'Antihistamine');
+Query OK, 4 rows affected (0.02 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> -- Inserting sample data into the Billing table
+mysql> INSERT INTO Billing (Billing_id, Prescription_id, total_amount)
+    -> VALUES
+    ->     (1, 1, 50.00),
+    ->     (2, 2, 25.00),
+    ->     (3, 3, 35.50),
+    ->     (4, 4, 40.00);
+Query OK, 4 rows affected (0.00 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+// DATA 
+
+mysql> select * from patients;
++------------+-------------+------+--------------+
+| patient_id | Name        | age  | Phone_Number |
++------------+-------------+------+--------------+
+|        101 | John Doe    |   30 | 555-1234     |
+|        102 | Jane Smith  |   25 | 555-5678     |
+|        103 | Bob Johnson |   40 | 555-9876     |
+|        104 | Alice Davis |   22 | 555-6543     |
++------------+-------------+------+--------------+
+4 rows in set (0.00 sec)
+
+mysql> select * from billing;
++------------+-----------------+--------------+
+| Billing_id | Prescription_id | total_amount |
++------------+-----------------+--------------+
+|          1 |               1 |           50 |
+|          2 |               2 |           25 |
+|          3 |               3 |           36 |
+|          4 |               4 |           40 |
++------------+-----------------+--------------+
+4 rows in set (0.00 sec)
+
+mysql> select * from Prescriptions;
++-----------------+------------+-----------+--------------------+---------------+
+| Prescription_id | patient_id | doctor_id | symtoms            | medication    |
++-----------------+------------+-----------+--------------------+---------------+
+|               1 |        101 |       201 | Fever and Headache | Aspirin       |
+|               2 |        102 |       202 | Cough and Cold     | Cough Syrup   |
+|               3 |        103 |       203 | Back Pain          | Painkiller    |
+|               4 |        104 |       204 | Allergies          | Antihistamine |
++-----------------+------------+-----------+--------------------+---------------+
+4 rows in set (0.00 sec)
+
+mysql> select * from Patients;
++------------+-------------+------+--------------+
+| patient_id | Name        | age  | Phone_Number |
++------------+-------------+------+--------------+
+|        101 | John Doe    |   30 | 555-1234     |
+|        102 | Jane Smith  |   25 | 555-5678     |
+|        103 | Bob Johnson |   40 | 555-9876     |
+|        104 | Alice Davis |   22 | 555-6543     |
++------------+-------------+------+--------------+
+4 rows in set (0.00 sec)
+
+/// ASSIGNMENT QUESTION 
+
+1) Write a SQL query to list the names and ages of patients 
+   who have prescriptions written by doctors specializing in 'Cardiology'.
+   Extend the query to also display the doctor's name and specialization for each prescription.
+
+select patients.name,patients.age,doctors.name,doctors.specialization from 
+patients,doctors,prescriptions where patients.patient_id = prescriptions.patient_id 
+AND Prescriptions.doctor_id = Doctors.doctor_id 
+AND Doctors.Specialization = 'Cardiology';
++-------------+------+-----------+----------------+
+| name        | age  | name      | specialization |
++-------------+------+-----------+----------------+
+| John Doe    |   30 | Dr. Smith | Cardiology     |
+| Bob Johnson |   40 | Dr. Davis | Cardiology     |
++-------------+------+-----------+----------------+
+2 rows in set (0.02 sec)
+
+
+2) For each doctor, find the total number of prescriptions they have written and 
+display it along with their name and specialization.
+
+// some new data is added over here for this problem
+mysql> INSERT INTO Doctors (doctor_id, Name, Specialization)
+    -> VALUES
+    ->     (301, 'Dr. Anderson', 'Cardiology'),
+    ->     (302, 'Dr. White', 'Orthopedics'),
+    ->     (303, 'Dr. Clark', 'Cardiology'),
+    ->     (304, 'Dr. Harris', 'Dermatology');
+Query OK, 4 rows affected (0.00 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> INSERT INTO Patients (patient_id, Name, age, Phone_Number)
+    -> VALUES
+    ->     (201, 'Michael Brown', 35, '555-1111'),
+    ->     (202, 'Emily Green', 28, '555-2222'),
+    ->     (203, 'Chris Davis', 45, '555-3333'),
+    ->     (204, 'Olivia Taylor', 30, '555-4444');
+Query OK, 4 rows affected (0.00 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+mysql> INSERT INTO Prescriptions (Prescription_id, patient_id, doctor_id, symtoms, medication)
+    -> VALUES
+    ->     (11, 201, 301, 'Chest Pain', 'Nitroglycerin'),
+    ->     (12, 202, 302, 'Joint Pain', 'Ibuprofen'),
+    ->     (13, 203, 303, 'Shortness of Breath', 'Beta-blockers'),
+    ->     (14, 204, 304, 'Skin Rash', 'Topical Cream');
+Query OK, 4 rows affected (0.02 sec)
+Records: 4  Duplicates: 0  Warnings: 0mysql> INSERT INTO Billing (Billing_id, Prescription_id, total_amount)
+    -> VALUES
+    ->     (5, 11, 55.00),
+    ->     (6, 12, 20.00),
+    ->     (7, 13, 30.00),
+    ->     (8, 14, 15.00);
+Query OK, 4 rows affected (0.01 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> select * from billing;
++------------+-----------------+--------------+
+| Billing_id | Prescription_id | total_amount |
++------------+-----------------+--------------+
+|          1 |               1 |           50 |
+|          2 |               2 |           25 |
+|          3 |               3 |           36 |
+|          4 |               4 |           40 |
+|          5 |              11 |           55 |
+|          6 |              12 |           20 |
+|          7 |              13 |           30 |
+|          8 |              14 |           15 |
++------------+-----------------+--------------+
+8 rows in set (0.00 sec)
+
+mysql> select * from prescriptions;
++-----------------+------------+-----------+---------------------+---------------+
+| Prescription_id | patient_id | doctor_id | symtoms             | medication    |
++-----------------+------------+-----------+---------------------+---------------+
+|               1 |        101 |       201 | Fever and Headache  | Aspirin       |
+|               2 |        102 |       202 | Cough and Cold      | Cough Syrup   |
+|               3 |        103 |       203 | Back Pain           | Painkiller    |
+|               4 |        104 |       204 | Allergies           | Antihistamine |
+|              11 |        201 |       301 | Chest Pain          | Nitroglycerin |
+|              12 |        202 |       302 | Joint Pain          | Ibuprofen     |
+|              13 |        203 |       303 | Shortness of Breath | Beta-blockers |
+|              14 |        204 |       304 | Skin Rash           | Topical Cream |
++-----------------+------------+-----------+---------------------+---------------+
+8 rows in set (0.00 sec)
+
+mysql> select * from doctors;
++-----------+--------------+----------------+
+| doctor_id | Name         | Specialization |
++-----------+--------------+----------------+
+|       201 | Dr. Smith    | Cardiology     |
+|       202 | Dr. Johnson  | Orthopedics    |
+|       203 | Dr. Davis    | Cardiology     |
+|       204 | Dr. Miller   | Orthopedics    |
+|       301 | Dr. Anderson | Cardiology     |
+|       302 | Dr. White    | Orthopedics    |
+|       303 | Dr. Clark    | Cardiology     |
+|       304 | Dr. Harris   | Dermatology    |
++-----------+--------------+----------------+
+8 rows in set (0.00 sec)
+
+mysql> select * from patients;
++------------+---------------+------+--------------+
+| patient_id | Name          | age  | Phone_Number |
++------------+---------------+------+--------------+
+|        101 | John Doe      |   30 | 555-1234     |
+|        102 | Jane Smith    |   25 | 555-5678     |
+|        103 | Bob Johnson   |   40 | 555-9876     |
+|        104 | Alice Davis   |   22 | 555-6543     |
+|        201 | Michael Brown |   35 | 555-1111     |
+|        202 | Emily Green   |   28 | 555-2222     |
+|        203 | Chris Davis   |   45 | 555-3333     |
+|        204 | Olivia Taylor |   30 | 555-4444     |
++------------+---------------+------+--------------+
+8 rows in set (0.00 sec)
+
+
+mysql> select doctors.name,count( Prescriptions.Prescription_id) as  Prescription ,doctors.specialization from doctors,Prescriptions
+    -> where doctors.doctor_id= Prescriptions.doctor_id
+    -> group by doctors.specialization,doctors.name;
++--------------+--------------+----------------+
+| name         | Prescription | specialization |
++--------------+--------------+----------------+
+| Dr. Anderson |            1 | Cardiology     |
+| Dr. Clark    |            1 | Cardiology     |
+| Dr. Davis    |            1 | Cardiology     |
+| Dr. Smith    |            1 | Cardiology     |
+| Dr. Harris   |            1 | Dermatology    |
+| Dr. Johnson  |            1 | Orthopedics    |
+| Dr. Miller   |            1 | Orthopedics    |
+| Dr. White    |            1 | Orthopedics    |
++--------------+--------------+----------------+
+8 rows in set (0.00 sec)
+
+
+3)For prescriptions written by doctors specializing in 'Orthopedics', 
+find the patient with the highest total amount billed. 
+Include the patient's name and the total amount.
+
+
+mysql> select patients.name,max(billing.total_amount) as Total_amount,doctors.specialization from doctors,patients,billing
+    -> where specialization = 'orthopedics';
++----------+---------------------------+----------------+
+| name     | billing.total_amount | specialization      |
++----------+---------------------------+----------------+
+| John Doe |                   55 | Orthopedics         |
++----------+---------------------------+----------------+
+1 row in set (0.00 sec)
