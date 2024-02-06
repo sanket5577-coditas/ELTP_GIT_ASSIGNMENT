@@ -1,0 +1,109 @@
+/// Tables
+mysql> SELECT * FROM prescriptions;
++-----------------+------------+-----------+---------------------+---------------+
+| Prescription_id | patient_id | doctor_id | symtoms             | medication    |
++-----------------+------------+-----------+---------------------+---------------+
+|               1 |        101 |       201 | Fever and Headache  | Aspirin       |
+|               2 |        102 |       202 | Cough and Cold      | Cough Syrup   |
+|               3 |        103 |       203 | Back Pain           | Painkiller    |
+|               4 |        104 |       204 | Allergies           | Antihistamine |
+|              11 |        201 |       301 | Chest Pain          | Nitroglycerin |
+|              12 |        202 |       302 | Joint Pain          | Ibuprofen     |
+|              13 |        203 |       303 | Shortness of Breath | Beta-blockers |
+|              14 |        204 |       304 | Skin Rash           | Topical Cream |
++-----------------+------------+-----------+---------------------+---------------+
+8 rows in set (0.00 sec)
+
+mysql> SELECT * FROM billing;
++------------+-----------------+--------------+
+| Billing_id | Prescription_id | total_amount |
++------------+-----------------+--------------+
+|          1 |               1 |           50 |
+|          2 |               2 |           25 |
+|          3 |               3 |           36 |
+|          4 |               4 |           40 |
+|          5 |              11 |           55 |
+|          6 |              12 |           20 |
+|          7 |              13 |           30 |
+|          8 |              14 |           15 |
++------------+-----------------+--------------+
+8 rows in set (0.00 sec)
+
+mysql> SELECT * FROM patients;
++------------+---------------+------+--------------+
+| patient_id | Name          | age  | Phone_Number |
++------------+---------------+------+--------------+
+|        101 | John Doe      |   30 | 555-1234     |
+|        102 | Jane Smith    |   25 | 555-5678     |
+|        103 | Bob Johnson   |   40 | 555-9876     |
+|        104 | Alice Davis   |   22 | 555-6543     |
+|        201 | Michael Brown |   35 | 555-1111     |
+|        202 | Emily Green   |   28 | 555-2222     |
+|        203 | Chris Davis   |   45 | 555-3333     |
+|        204 | Olivia Taylor |   30 | 555-4444     |
++------------+---------------+------+--------------+
+8 rows in set (0.00 sec)
+
+
+
+
+
+
+
+Exercise 1:
+Create a view that displays patient information (name, age) for prescriptions 
+written by doctors in the 'Cardiology' specializatimysql> CREATE VIEW Table_Views as
+
+mysql> CREATE VIEW Tables_Views as
+    -> SELECT
+    -> Patients.name AS pname,
+    -> Patients.age AS page,
+    -> Doctors.name,
+    -> Doctors.specialization
+    -> FROM Prescriptions
+    -> JOIN Doctors ON Prescriptions.doctor_id = Doctors.doctor_id
+    -> JOIN Patients ON Prescriptions.patient_id = Patients.patient_id
+    -> WHERE Doctors.specialization = 'Cardiology';
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> select * from tables_views;
++---------------+------+--------------+----------------+
+| pname         | page | name         | specialization |
++---------------+------+--------------+----------------+
+| John Doe      |   30 | Dr. Smith    | Cardiology     |
+| Bob Johnson   |   40 | Dr. Davis    | Cardiology     |
+| Michael Brown |   35 | Dr. Anderson | Cardiology     |
+| Chris Davis   |   45 | Dr. Clark    | Cardiology     |
++---------------+------+--------------+----------------+
+4 rows in set (0.00 sec)
+
+
+2) Exercise 2:
+Create a view that shows the total amount billed for each prescription,
+including patient name and doctor name.
+
+mysql> CREATE VIEW Display as
+    -> SELECT
+    -> Patients.name AS pname,
+    -> Doctors.name,
+    -> billing.total_amount AS Total_amt
+    -> from billing
+    -> join prescriptions on prescriptions.Prescription_id = billing.prescription_id
+    -> join patients on prescriptions.patient_id = patients.patient_id
+    -> join doctors on prescriptions.doctor_id = doctors.doctor_id;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> SELECT * FROM Display;
++---------------+--------------+-----------+
+| pname         | name         | Total_amt |
++---------------+--------------+-----------+
+| John Doe      | Dr. Smith    |        50 |
+| Jane Smith    | Dr. Johnson  |        25 |
+| Bob Johnson   | Dr. Davis    |        36 |
+| Alice Davis   | Dr. Miller   |        40 |
+| Michael Brown | Dr. Anderson |        55 |
+| Emily Green   | Dr. White    |        20 |
+| Chris Davis   | Dr. Clark    |        30 |
+| Olivia Taylor | Dr. Harris   |        15 |
++---------------+--------------+-----------+
+8 rows in set (0.02 sec)
