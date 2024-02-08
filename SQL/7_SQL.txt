@@ -1,0 +1,32 @@
+2) Update the existing stored procedure to calculate and
+return the total amount billed for a given prescription ID.
+
+DELIMITER must be followed by a 'delimiter' character or string
+mysql> CREATE PROCEDURE TotalAmountPro(
+    -> IN p_prescription_id INT,
+    -> OUT p_total_amount INT )
+    -> BEGIN
+    -> SELECT total_amount INTO p_total_amount
+    -> FROM billing
+    -> WHERE prescription_id = p_prescription_id
+    -> ;
+    -> END//
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> CALL TotalAmountPro(2,@total_amount);
+    -> end/
+    -> /
+    -> end//
+Query OK, 1 row affected (0.00 sec)
+
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'end/
+/
+end' at line 1
+mysql> SELECT @Total_amount;
+    -> END//
++---------------+
+| @Total_amount |
++---------------+
+|            25 |
++---------------+
+1 row in set (0.00 sec)
