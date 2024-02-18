@@ -1,0 +1,194 @@
+use ToDoDB
+switched to db ToDoDB
+db.createCollection("tasks")
+{ ok: 1 }
+db.tasks.insertOne({
+  title: "Sample Task",
+  description: "This is a sample task.",
+  status: "Pending",
+  due_date: ISODate()
+})
+{
+  acknowledged: true,
+  insertedId: ObjectId('65d21d6d54ec86ff78e74ed7')
+}
+db.tasks.insertMany([
+  {
+    title: "T_1",
+    description: "Complete project proposal",
+    status: "Pending",
+    due_date: ISODate()
+  },
+  {
+    title: "T_2",
+    description: "Review and edit report",
+    status: "Completed",
+    due_date: ISODate()
+  },
+  {
+    title: "T_3",
+    description: "Prepare for client meeting",
+    status: "Pending",
+    due_date: ISODate()
+  },
+  {
+    title: "T_4",
+    description: "Create presentation slides",
+    status: "Pending",
+    due_date: ISODate()
+  },
+  {
+    title: "T_5",
+    description: "Submit expense reports",
+    status: "Completed",
+    due_date: ISODate()
+  }
+]);
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('65d21ebc54ec86ff78e74ed8'),
+    '1': ObjectId('65d21ebc54ec86ff78e74ed9'),
+    '2': ObjectId('65d21ebc54ec86ff78e74eda'),
+    '3': ObjectId('65d21ebc54ec86ff78e74edb'),
+    '4': ObjectId('65d21ebc54ec86ff78e74edc')
+  }
+}
+db.tasks.find()
+{
+  _id: ObjectId('65d21d6d54ec86ff78e74ed7'),
+  title: 'Sample Task',
+  description: 'This is a sample task.',
+  status: 'Pending',
+  due_date: 2024-02-18T15:08:29.873Z
+}
+{
+  _id: ObjectId('65d21ebc54ec86ff78e74ed8'),
+  title: 'T_1',
+  description: 'Complete project proposal',
+  status: 'Pending',
+  due_date: 2024-02-18T15:14:04.858Z
+}
+{
+  _id: ObjectId('65d21ebc54ec86ff78e74ed9'),
+  title: 'T_2',
+  description: 'Review and edit report',
+  status: 'Completed',
+  due_date: 2024-02-18T15:14:04.860Z
+}
+{
+  _id: ObjectId('65d21ebc54ec86ff78e74eda'),
+  title: 'T_3',
+  description: 'Prepare for client meeting',
+  status: 'Pending',
+  due_date: 2024-02-18T15:14:04.860Z
+}
+{
+  _id: ObjectId('65d21ebc54ec86ff78e74edb'),
+  title: 'T_4',
+  description: 'Create presentation slides',
+  status: 'Pending',
+  due_date: 2024-02-18T15:14:04.860Z
+}
+{
+  _id: ObjectId('65d21ebc54ec86ff78e74edc'),
+  title: 'T_5',
+  description: 'Submit expense reports',
+  status: 'Completed',
+  due_date: 2024-02-18T15:14:04.861Z
+}
+db.tasks.findOne({ title: "T_1" });
+{
+  _id: ObjectId('65d21ebc54ec86ff78e74ed8'),
+  title: 'T_1',
+  description: 'Complete project proposal',
+  status: 'Pending',
+  due_date: 2024-02-18T15:14:04.858Z
+}
+db.tasks.find({ status: "Pending" })
+{
+  _id: ObjectId('65d21d6d54ec86ff78e74ed7'),
+  title: 'Sample Task',
+  description: 'This is a sample task.',
+  status: 'Pending',
+  due_date: 2024-02-18T15:08:29.873Z
+}
+{
+  _id: ObjectId('65d21ebc54ec86ff78e74ed8'),
+  title: 'T_1',
+  description: 'Complete project proposal',
+  status: 'Pending',
+  due_date: 2024-02-18T15:14:04.858Z
+}
+{
+  _id: ObjectId('65d21ebc54ec86ff78e74eda'),
+  title: 'T_3',
+  description: 'Prepare for client meeting',
+  status: 'Pending',
+  due_date: 2024-02-18T15:14:04.860Z
+}
+{
+  _id: ObjectId('65d21ebc54ec86ff78e74edb'),
+  title: 'T_4',
+  description: 'Create presentation slides',
+  status: 'Pending',
+  due_date: 2024-02-18T15:14:04.860Z
+}
+db.tasks.find({ status: "Pending", due_date: { $lt: new Date() } })
+{
+  _id: ObjectId('65d21d6d54ec86ff78e74ed7'),
+  title: 'Sample Task',
+  description: 'This is a sample task.',
+  status: 'Pending',
+  due_date: 2024-02-18T15:08:29.873Z
+}
+{
+  _id: ObjectId('65d21ebc54ec86ff78e74ed8'),
+  title: 'T_1',
+  description: 'Complete project proposal',
+  status: 'Pending',
+  due_date: 2024-02-18T15:14:04.858Z
+}
+{
+  _id: ObjectId('65d21ebc54ec86ff78e74eda'),
+  title: 'T_3',
+  description: 'Prepare for client meeting',
+  status: 'Pending',
+  due_date: 2024-02-18T15:14:04.860Z
+}
+{
+  _id: ObjectId('65d21ebc54ec86ff78e74edb'),
+  title: 'T_4',
+  description: 'Create presentation slides',
+  status: 'Pending',
+  due_date: 2024-02-18T15:14:04.860Z
+}
+db.tasks.updateOne({ title: "Task 1" }, { $set: { status: "Completed" } });
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 0,
+  modifiedCount: 0,
+  upsertedCount: 0
+}
+// Update the due date of a specific task
+db.tasks.updateOne({ title: "Task 2" }, { $set: { due_date: ISODate() } });
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 0,
+  modifiedCount: 0,
+  upsertedCount: 0
+}
+db.tasks.deleteOne({ title: "Sample Task" });
+{
+  acknowledged: true,
+  deletedCount: 1
+}
+db.tasks.deleteMany({ status: "Completed" })
+{
+  acknowledged: true,
+  deletedCount: 2
+}
+ToDoDB
+Selection deleted
