@@ -1,0 +1,94 @@
+Q1.
+db.students.aggregate([
+  {
+    $unwind: "$scores"
+  },
+  {
+    $group: {
+      _id: {
+        name: "$name",
+        type: "$scores.type"
+      },
+      score: { $first: "$scores.score" }
+    }
+  },
+  {
+    $group: {
+      _id: "$_id.name",
+      exams: {
+        $push: {
+          k: "$_id.type",
+          v: { score: "$score" }
+        }
+      }
+    }
+  },
+  {
+    $replaceRoot: {
+      newRoot: {
+        $mergeObjects: [
+          { name: "$_id" },
+          { $arrayToObject: "$exams" }
+        ]
+      }
+    }
+  }
+]);
+
+
+Q2.
+
+db.tasks.aggregate([
+  {
+    $group: {
+      _id: "$status",
+      tasks: { $push: "$$ROOT" }
+    }
+  },
+  {
+    $group: {
+      _id: null,
+      data: {
+        $push: {
+          k: "$_id",
+          v: "$tasks"
+        }
+      }
+    }
+  },
+  {
+    $replaceRoot: {
+      newRoot: {
+        $arrayToObject: "$data"
+      }
+    }
+  }
+]);
+
+
+Q3
+
+db.student.aggregate([
+  {
+    $unwind: "$scores"
+  },
+  {
+    $group: {
+      _id: "$name",
+      name: { $first: "$name" },
+      scores: {
+        $push: {
+          type: "$scores.type",
+          score: "$scores.score"
+        }
+      }
+    }
+  },
+  {
+    $project: {
+      _id: 0,
+      name: 1,
+      scores: 1
+    }
+  }
+]);
