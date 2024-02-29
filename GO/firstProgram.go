@@ -4,7 +4,11 @@ package main
 import "fmt";
 
 // Main function
+
+func  helloWorldFucntion() string  {
+	return "Hello,Sanket"
+}
 func main() {
 
-	fmt.Println("!... Hello World ...!")
+	fmt.Println(helloWorldFucntion())
 }
