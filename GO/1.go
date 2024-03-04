@@ -2,6 +2,9 @@ package main
 
 import "fmt"
 
+func topFunction(){
+	fmt.Println("i'm delacre at top of main function ")
+}
 func main() {
 	//Variables
 	// Declare
@@ -45,4 +48,23 @@ func main() {
 	fmt.Printf("%v", letterA) //97
 	fmt.Printf("%s", letterA) //%!s(int32=97)
 
+	var friendsArray = [3]string{"sanket","saket","rahul"};
+	friends:=[4]string{"sanket","saket","rahul"}  // it will zero-value of string which is whitespaces
+
+
+
+	mySlice :=[]int{1,2,3,4,5,6};
+	fmt.Println(friendsArray,friends,mySlice)
+
+	personInfo := map[string]string{
+		"personName":"sanket",
+		"age":"10",
+	}
+	fmt.Println(personInfo  )   //map is same as object but in object we can have any datatype as kvp but here we can't
+	topFunction()
+	lowerFunction()
+}
+
+func lowerFunction (){
+	fmt.Println("Hello,i'm delcare outside of main function and my body is in bottom of main function")
 }
