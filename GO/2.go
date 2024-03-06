@@ -5,7 +5,7 @@ import (
 	"math/rand"
 )
 
-func main(){
+func Two(){
 	const num1 int =2
 	const num2 int =3
 

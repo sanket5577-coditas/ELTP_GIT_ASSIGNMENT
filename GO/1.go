@@ -5,7 +5,7 @@ import "fmt"
 func topFunction(){
 	fmt.Println("i'm delacre at top of main function ")
 }
-func main() {
+func One() {
 	//Variables
 	// Declare
 	var myName string
@@ -36,7 +36,7 @@ func main() {
 	// int => int8,int16,int32,int64
 
 	characterLetters := 'a'
-	fmt.Println(characterLetters) //ascii value of a which is 97
+	fmt.Println(characterLetters) //ascii value of a, which is 97
 
 	// samthing we can do with int32,the int32 is alias of rune
 	var letterA int32 = 'a'
@@ -56,11 +56,12 @@ func main() {
 	mySlice :=[]int{1,2,3,4,5,6};
 	fmt.Println(friendsArray,friends,mySlice)
 
+	//map is same as object but in object we can have any datatype as kvp but here we can't
 	personInfo := map[string]string{
 		"personName":"sanket",
 		"age":"10",
 	}
-	fmt.Println(personInfo  )   //map is same as object but in object we can have any datatype as kvp but here we can't
+	fmt.Println(personInfo  )   
 	topFunction()
 	lowerFunction()
 }

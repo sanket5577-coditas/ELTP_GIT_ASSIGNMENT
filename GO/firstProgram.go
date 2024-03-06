@@ -8,7 +8,7 @@ import "fmt";
 func  helloWorldFucntion() string  {
 	return "Hello,Sanket"
 }
-func main() {
+func FirstProgram() {
 
 	fmt.Println(helloWorldFucntion())
 
