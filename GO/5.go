@@ -5,7 +5,7 @@ import (
 	"strings"
 )
 
-func main() {
+func Five() {
 	str := "msd is cool"
 	age := 18
 
