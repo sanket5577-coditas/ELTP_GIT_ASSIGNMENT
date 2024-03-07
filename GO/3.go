@@ -5,7 +5,7 @@ import (
 	"strings"
 )
 
-func main() {
+func two() {
 	message := "Hello"
 	name := "Sanket"
 
