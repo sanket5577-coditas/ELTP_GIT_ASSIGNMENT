@@ -7,7 +7,7 @@ import (
 	"strings"
 )
 
-func main() {
+func class1() {
 	// Variable Declaration:
 	// Declare a variable named age and assign the value 25 to it.
 	age := 25
