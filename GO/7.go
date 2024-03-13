@@ -2,7 +2,7 @@ package main
 
 import "fmt"
 
-func main() {
+func Seven() {
 	// IS THIS DEEP CLONE??????
 	matrix := [][]int{
 		{1},
