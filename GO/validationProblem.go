@@ -58,7 +58,7 @@ func validationPipeline(input int , fns... func(input int) bool)bool {
 	}
 	return false
 }
-func main() {
+func Val() {
 	input := 5
 	// validationPipeline := []func(input int) bool{isNumber(input),isEven}
 
